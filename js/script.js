@@ -3,8 +3,8 @@
 // ==========================================================
 const correctPin = "1990";       // PIN de desbloqueo
 const birthYear = 1990;          // Año de nacimiento de tu mamá
-const birthMonth = 1;            // Mes de cumpleaños (1-12) -> CAMBIAR
-const birthDay = 1;              // Día de cumpleaños (1-31) -> CAMBIAR
+const birthMonth = 8;            // Mes de cumpleaños (1-12) -> CAMBIAR
+const birthDay = 26;              // Día de cumpleaños (1-31) -> CAMBIAR
 
 // ==========================================================
 // LOCK SCREEN
@@ -59,16 +59,128 @@ if (playPauseBtn) {
 // ==========================================================
 const openLetterBtn = document.getElementById("openLetterBtn");
 const envelope = document.getElementById("envelope");
+let letterTyped = false;
 
 if (openLetterBtn && envelope) {
-    envelope.classList.add("open"); // aseguramos que exista en el DOM antes de animarlo
+    envelope.classList.add("open");
     envelope.classList.remove("open");
 
     openLetterBtn.addEventListener("click", () => {
         envelope.classList.toggle("open");
         openLetterBtn.textContent = envelope.classList.contains("open")
             ? "Cerrar la carta"
-            : "Open the Letter";
+            : "Abrir la Carta";
+
+        if (envelope.classList.contains("open") && !letterTyped) {
+            letterTyped = true;
+            setTimeout(initLetterTyping, 600);
+        }
+    });
+}
+
+// ==========================================================
+// ANIMACIÓN DE "ESCRIBIENDO" Y MUESTRA DEL JUEGO
+// ==========================================================
+function initLetterTyping() {
+    const letterEl = document.querySelector(".envelope-letter");
+    if (!letterEl) return;
+
+    // Solo animamos los párrafos directos de la carta, ignorando los del juego
+    const paragraphs = Array.from(letterEl.querySelectorAll(":scope > p"));
+    const mediaAndGame = Array.from(letterEl.querySelectorAll(":scope > img, :scope > video, :scope > .tattoo-game"));
+
+    // Ocultamos inicialmente imágenes, videos y el juego para mostrarlos al final
+    mediaAndGame.forEach(el => {
+        el.style.opacity = "0";
+        el.style.transition = "opacity 0.8s ease";
+    });
+
+    let pIndex = 0;
+    let wordIndex = 0;
+    let textQueue = [];
+
+    // Preparamos los textos de los párrafos directos
+    paragraphs.forEach(p => {
+        const words = p.textContent.trim().split(/\s+/);
+        p.textContent = "";
+        textQueue.push({ el: p, words: words });
+    });
+
+    function typeNextWord() {
+        if (pIndex >= textQueue.length) {
+            // AL TERMINAR EL TEXTO: Mostramos los elementos multimedia y el juego del tatuaje
+            mediaAndGame.forEach(el => {
+                el.style.opacity = "1";
+                el.style.display = "block";
+            });
+            return;
+        }
+
+        const current = textQueue[pIndex];
+
+        if (wordIndex < current.words.length) {
+            current.el.textContent += (wordIndex === 0 ? "" : " ") + current.words[wordIndex];
+            wordIndex++;
+            setTimeout(typeNextWord, 60);
+        } else {
+            pIndex++;
+            wordIndex = 0;
+            setTimeout(typeNextWord, 250);
+        }
+    }
+
+    typeNextWord();
+}
+
+// ==========================================================
+// JUEGO: "¿LE CONCEDE PERMISO DE TATUARSE TODO EL CUERPO?"
+// ==========================================================
+const tattooButtons = document.getElementById("tattooButtons");
+const tattooYes = document.getElementById("tattooYes");
+const tattooNo = document.getElementById("tattooNo");
+const tattooResult = document.getElementById("tattooResult");
+
+if (tattooButtons && tattooYes && tattooNo) {
+    tattooButtons.style.position = "relative";
+    tattooButtons.style.minHeight = "90px";
+
+    // Mueve el botón "No" a una posición aleatoria dentro del contenedor
+    function escapeNoButton(e) {
+        if (e) e.preventDefault();
+
+        const containerRect = tattooButtons.getBoundingClientRect();
+        const btnWidth = tattooNo.offsetWidth || 100;
+        const btnHeight = tattooNo.offsetHeight || 45;
+
+        const maxX = Math.max(10, containerRect.width - btnWidth);
+        const maxY = Math.max(10, containerRect.height - btnHeight);
+
+        const newX = Math.random() * maxX;
+        const newY = Math.random() * maxY;
+
+        tattooNo.style.position = "absolute";
+        tattooNo.style.left = newX + "px";
+        tattooNo.style.top = newY + "px";
+        tattooNo.style.transform = "none";
+        tattooNo.style.zIndex = "20";
+    }
+
+    // Escapa tanto con mouse (desktop) como con touch (celular)
+    tattooNo.addEventListener("mouseenter", escapeNoButton);
+    tattooNo.addEventListener("mouseover", escapeNoButton);
+    tattooNo.addEventListener("click", escapeNoButton);
+    tattooNo.addEventListener("touchstart", escapeNoButton, { passive: false });
+
+    tattooYes.addEventListener("click", () => {
+        tattooResult.textContent = "¡Gracias por su consentimiento! 🥹❤️ Promo válida para toda la vida.";
+        tattooResult.style.marginTop = "15px";
+        tattooResult.style.fontWeight = "bold";
+        tattooResult.style.color = "#e6c387";
+        tattooYes.style.display = "none";
+        tattooNo.style.display = "none";
+        if (typeof launchConfetti === "function") {
+            launchConfetti(50);
+        }
     });
 }
 
@@ -160,12 +272,13 @@ function animateCounter(el, target, duration = 1500) {
 
 function daysUntilNextBirthday() {
     const today = new Date();
-    let next = new Date(today.getFullYear(), birthMonth - 1, birthDay);
-    if (next < today) {
-        next = new Date(today.getFullYear() + 1, birthMonth - 1, birthDay);
+    const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    let next = new Date(startOfToday.getFullYear(), birthMonth - 1, birthDay);
+    if (next < startOfToday) {
+        next = new Date(startOfToday.getFullYear() + 1, birthMonth - 1, birthDay);
     }
-    const diffTime = next - today;
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const diffTime = next - startOfToday;
+    return Math.round(diffTime / (1000 * 60 * 60 * 24));
 }
 
 function currentAge() {
@@ -309,15 +422,24 @@ if (carouselTrack) {
 // HOJAS CAYENDO EN LA CARTA (mientras está abierta)
 // ==========================================================
 const leavesContainer = document.getElementById("leavesContainer");
+const treeDecor = document.getElementById("treeDecor");
 let leavesInterval = null;
 
 function createLeaf() {
-    if (!leavesContainer) return;
+    if (!leavesContainer || !treeDecor) return;
+
+    const containerRect = leavesContainer.getBoundingClientRect();
+    const treeRect = treeDecor.getBoundingClientRect();
+
+    // Posición del árbol relativa al contenedor de hojas
+    const treeCenterX = treeRect.left - containerRect.left + treeRect.width / 2;
+    const treeBottomY = treeRect.top - containerRect.top + treeRect.height * 0.6;
 
     const leaf = document.createElement("span");
     leaf.classList.add("leaf");
     leaf.textContent = ["🍂", "🍁", "🍃"][Math.floor(Math.random() * 3)];
-    leaf.style.left = Math.random() * 100 + "%";
+    leaf.style.left = (treeCenterX + (Math.random() * 50 - 25)) + "px";
+    leaf.style.top = treeBottomY + "px";
     leaf.style.fontSize = 14 + Math.random() * 10 + "px";
 
     const duration = 4 + Math.random() * 3;
@@ -497,13 +619,66 @@ function initGalaxyScene() {
     let heartRise = -2;
     let heartOpacity = 0;
 
+    // ---- Interacción con el mouse (paralaje de cámara) ----
+    let mouseX = 0;
+    let mouseY = 0;
+
+    galaxyContainer.addEventListener("mousemove", (e) => {
+        const rect = galaxyContainer.getBoundingClientRect();
+        mouseX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        mouseY = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+    });
+
+    galaxyContainer.addEventListener("touchmove", (e) => {
+        if (!e.touches.length) return;
+        const rect = galaxyContainer.getBoundingClientRect();
+        mouseX = ((e.touches[0].clientX - rect.left) / rect.width) * 2 - 1;
+        mouseY = ((e.touches[0].clientY - rect.top) / rect.height) * 2 - 1;
+    });
+
+    // ---- Clic: estalla un pequeño destello de corazones ----
+    galaxyContainer.addEventListener("click", (e) => {
+        const rect = galaxyContainer.getBoundingClientRect();
+        spawnHeartBurst(e.clientX - rect.left, e.clientY - rect.top);
+    });
+
+    function spawnHeartBurst(x, y) {
+        const symbols = ["💖", "✨", "💫", "💗"];
+        for (let i = 0; i < 10; i++) {
+            const burst = document.createElement("span");
+            burst.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+            burst.style.position = "absolute";
+            burst.style.left = x + "px";
+            burst.style.top = y + "px";
+            burst.style.fontSize = 14 + Math.random() * 12 + "px";
+            burst.style.pointerEvents = "none";
+            burst.style.zIndex = "6";
+            burst.style.transition = "transform 1s ease-out, opacity 1s ease-out";
+            galaxyContainer.appendChild(burst);
+
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 60 + Math.random() * 80;
+            const dx = Math.cos(angle) * distance;
+            const dy = Math.sin(angle) * distance;
+
+            requestAnimationFrame(() => {
+                burst.style.transform = `translate(${dx}px, ${dy}px)`;
+                burst.style.opacity = "0";
+            });
+
+            setTimeout(() => burst.remove(), 1100);
+        }
+    }
+
     const clock = new THREE.Clock();
 
     function animateGalaxy() {
         requestAnimationFrame(animateGalaxy);
         const elapsed = clock.getElapsedTime();
 
-        galaxyGroup.rotation.y = elapsed * 0.08;
+        // Rotación continua de la galaxia + leve inclinación por el mouse
+        galaxyGroup.rotation.y = elapsed * 0.08 + mouseX * 0.3;
+        galaxyGroup.rotation.x = mouseY * 0.15;
 
         if (heartRise < 0.4) {
             heartRise += 0.004;
@@ -513,7 +688,17 @@ function initGalaxyScene() {
             heartOpacity += 0.003;
             heartMaterial.opacity = heartOpacity;
         }
-        heartGroup.rotation.y = elapsed * 0.15;
+
+        // El corazón late y gira, y sigue un poco al mouse
+        const beat = 1 + Math.sin(elapsed * 3) * 0.08;
+        heartGroup.scale.set(beat, beat, beat);
+        heartGroup.rotation.y = elapsed * 0.15 + mouseX * 0.4;
+        heartGroup.position.x = mouseX * 0.6;
+
+        // Paralaje suave de cámara
+        camera.position.x += (mouseX * 1.8 - camera.position.x) * 0.03;
+        camera.position.y += (2 - mouseY * 1.2 - camera.position.y) * 0.03;
+        camera.lookAt(0, 1, 0);
 
         renderer.render(scene, camera);
     }
@@ -528,4 +713,4 @@ function initGalaxyScene() {
         camera.updateProjectionMatrix();
         renderer.setSize(w, h);
     });
-}
+}   

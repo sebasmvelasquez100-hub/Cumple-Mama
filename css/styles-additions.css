@@ -3,6 +3,29 @@
    de styles.css. No reemplaza nada, solo se suma.
    ========================================================= */
 
+/* ===== TIPOGRAFÍA TIPO ESCRITURA A MANO EN TODA LA PÁGINA ===== */
+body, p, span, a, li, button, input{
+    font-family:'Patrick Hand', cursive;
+    color:white;
+}
+
+h1, h2, h3, h4{
+    font-family:'Caveat', cursive;
+    font-weight:700;
+}
+
+h1{
+    font-size:5.5rem;
+}
+
+h2{
+    font-size:3rem;
+}
+
+h3{
+    font-size:2rem;
+}
+
 /* ===== CURSOR PERSONALIZADO (corazón) ===== */
 body{
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32'><path fill='%23e2b4bd' stroke='white' stroke-width='1' d='M16 29s-12-7.5-12-16A7 7 0 0 1 16 8a7 7 0 0 1 12 5c0 8.5-12 16-12 16z'/></svg>") 16 16, auto;
@@ -84,6 +107,33 @@ a, button, .btn, .photo, #openLetterBtn, #blowCandlesBtn{
     50%{ transform:translateY(-15px); opacity:1; }
 }
 
+.hero-top{
+    position:relative;
+    z-index:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:30px;
+    flex-wrap:wrap;
+}
+
+.hero-photo{
+    width:140px;
+    height:140px;
+    object-fit:cover;
+    border-radius:50%;
+    border:3px solid #e2b4bd;
+    box-shadow:0 0 30px rgba(226,180,189,0.5);
+    animation:popIn 1s ease-out;
+}
+
+@media (max-width:600px){
+    .hero-photo{
+        width:100px;
+        height:100px;
+    }
+}
+
 .hero h1{
     position:relative;
     z-index:1;
@@ -117,9 +167,9 @@ a, button, .btn, .photo, #openLetterBtn, #blowCandlesBtn{
     z-index:1;
     margin-top:15px;
     min-height:30px;
-    font-size:1.1rem;
+    font-size:1.3rem;
     font-style:italic;
-    color:#fce1e6;
+    color:white;
     opacity:0;
     transition:opacity 0.6s ease;
 }
@@ -144,16 +194,16 @@ a, button, .btn, .photo, #openLetterBtn, #blowCandlesBtn{
 
 .counter-number{
     display:block;
-    font-family:'Cormorant Garamond',serif;
-    font-size:3rem;
-    color:#e2b4bd;
-    font-weight:600;
+    font-family:'Caveat', cursive;
+    font-size:3.2rem;
+    color:white;
+    font-weight:700;
 }
 
 .counter-label{
     display:block;
     margin-top:10px;
-    color:#fce1e6;
+    color:white;
     font-size:0.95rem;
 }
 
@@ -188,8 +238,18 @@ a, button, .btn, .photo, #openLetterBtn, #blowCandlesBtn{
 }
 
 .timeline-content h3{
-    color:#fce1e6;
+    color:white;
     margin-bottom:8px;
+}
+
+/* ===== VIDEO EN LA LÍNEA DE TIEMPO ===== */
+.timeline-video{
+    width:100%;
+    max-width:450px;
+    border-radius:15px;
+    margin:15px 0;
+    display:block;
+    box-shadow:0 10px 25px rgba(0,0,0,0.4);
 }
 
 /* ===== FOTOS ESTILO POLAROID ===== */
@@ -211,6 +271,68 @@ a, button, .btn, .photo, #openLetterBtn, #blowCandlesBtn{
     transform:rotate(0deg) scale(1.08) translateY(-10px);
     box-shadow:0 20px 35px rgba(226,180,189,0.35);
     z-index:2;
+}
+
+/* ===== CARRUSEL DE GALERÍA ===== */
+.carousel-container{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-top:30px;
+}
+
+.carousel-track-wrapper{
+    overflow:hidden;
+    width:100%;
+}
+
+.carousel-track{
+    display:flex;
+    transition:transform 0.5s ease;
+}
+
+.carousel-track .photo{
+    flex:0 0 280px;
+    margin:0 15px;
+}
+
+.carousel-btn{
+    flex-shrink:0;
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    border:1px solid #e2b4bd;
+    background:rgba(255,255,255,0.05);
+    color:white;
+    font-size:1.5rem;
+    cursor:pointer;
+    transition:background 0.3s;
+}
+
+.carousel-btn:hover{
+    background:#e2b4bd;
+    color:black;
+}
+
+.carousel-dots{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:20px;
+}
+
+.carousel-dots .dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.25);
+    cursor:pointer;
+    transition:background 0.3s, transform 0.3s;
+}
+
+.carousel-dots .dot.active{
+    background:#e2b4bd;
+    transform:scale(1.3);
 }
 
 /* ===== CARTA CON EFECTO DE SOBRE ===== */
@@ -252,26 +374,99 @@ a, button, .btn, .photo, #openLetterBtn, #blowCandlesBtn{
     transform:rotateX(180deg);
 }
 
+/* ===== FONDO TIPO HOJA DE PAPEL EN LA CARTA (oscuro, texto blanco) ===== */
 .envelope-letter{
     position:relative;
+    overflow:hidden;
     line-height:1.8;
-    background:rgba(255,255,255,0.05);
+    background:
+        repeating-linear-gradient(
+            #1c0f1a 0px,
+            #1c0f1a 34px,
+            rgba(255,255,255,0.08) 35px
+        );
+    color:white;
     padding:30px;
-    border-radius:15px;
+    border-radius:8px;
+    border:1px solid rgba(226,180,189,0.25);
     max-width:700px;
     margin:0 auto;
     opacity:0;
     transform:translateY(-30px);
     transition:opacity 0.8s ease 0.4s, transform 0.8s ease 0.4s;
     max-height:0;
-    overflow:hidden;
+    box-shadow:0 15px 40px rgba(0,0,0,0.5);
 }
 
 .envelope.open .envelope-letter{
     opacity:1;
     transform:translateY(0);
-    max-height:1000px;
+    max-height:2000px;
     padding:30px;
+}
+
+.envelope-letter p{
+    font-family:'Patrick Hand', cursive;
+    font-size:1.3rem;
+    color:white;
+    position:relative;
+    z-index:1;
+}
+
+/* ===== FOTO DENTRO DE LA CARTA ===== */
+.letter-photo{
+    position:relative;
+    z-index:1;
+    display:block;
+    width:100%;
+    max-width:320px;
+    margin:20px auto;
+    border-radius:6px;
+    border:8px solid white;
+    box-shadow:0 10px 25px rgba(0,0,0,0.35);
+    transform:rotate(-2deg);
+}
+
+/* ===== ÁRBOL Y HOJAS CAYENDO EN LA CARTA ===== */
+.leaves-container{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
+    z-index:0;
+}
+
+.leaf{
+    position:absolute;
+    top:0;
+    animation:leafFall linear forwards;
+}
+
+@keyframes leafFall{
+    0%{
+        transform:translate(0,0) rotate(0deg);
+        opacity:0.9;
+    }
+    50%{
+        transform:translate(25px,140px) rotate(180deg);
+    }
+    100%{
+        transform:translate(-15px,300px) rotate(360deg);
+        opacity:0.3;
+    }
+}
+
+.tree-decor{
+    position:relative;
+    z-index:1;
+    text-align:center;
+    font-size:4.5rem;
+    margin-bottom:10px;
+}
+
+.envelope-letter video{
+    position:relative;
+    z-index:1;
 }
 
 /* ===== SHAKE EN PIN INCORRECTO ===== */
@@ -284,6 +479,122 @@ a, button, .btn, .photo, #openLetterBtn, #blowCandlesBtn{
     0%, 100%{ transform:translateX(0); }
     20%, 60%{ transform:translateX(-8px); }
     40%, 80%{ transform:translateX(8px); }
+}
+
+/* ===== GRAN FINAL: TARJETA "MI DESEO" ===== */
+.wish-card-cosmic{
+    max-width:320px;
+    margin:60px auto;
+    padding:50px 30px;
+    border-radius:20px;
+    background:#0d0510;
+    border:1px solid rgba(226,180,189,0.3);
+    text-align:center;
+    box-shadow:0 0 60px rgba(226,180,189,0.15);
+    transition:opacity 0.8s ease, transform 0.8s ease;
+}
+
+.wish-card-cosmic.fade-out-card{
+    opacity:0;
+    transform:scale(0.8);
+    pointer-events:none;
+}
+
+.wish-card-cosmic h2{
+    color:white;
+}
+
+#heartChargeBtn{
+    background:none;
+    border:none;
+    font-size:4rem;
+    cursor:pointer;
+    margin-top:20px;
+    animation:heartBeat 1.2s ease-in-out infinite;
+    filter:drop-shadow(0 0 15px rgba(226,180,189,0.7));
+}
+
+@keyframes heartBeat{
+    0%, 100%{ transform:scale(1); }
+    50%{ transform:scale(1.15); }
+}
+
+.charging-text{
+    margin-top:15px;
+    letter-spacing:2px;
+    color:white;
+    font-size:0.9rem;
+    animation:blinkText 1.5s infinite;
+}
+
+@keyframes blinkText{
+    0%, 100%{ opacity:0.4; }
+    50%{ opacity:1; }
+}
+
+/* ===== GRAN FINAL: GALAXIA 3D ===== */
+.galaxy-container{
+    position:relative;
+    width:100%;
+    height:100vh;
+    overflow:hidden;
+    display:none;
+    background:radial-gradient(ellipse at center, #1a0a20 0%, #05020a 80%);
+    cursor:pointer;
+}
+
+.galaxy-container.active{
+    display:block;
+}
+
+.galaxy-overlay-text{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    z-index:5;
+    font-family:'Caveat', cursive;
+    font-size:2.6rem;
+    text-align:center;
+    color:#fff;
+    text-shadow:0 0 20px rgba(226,180,189,0.9), 0 0 40px rgba(180,100,220,0.6);
+    animation:floatText 4s ease-in-out infinite;
+    pointer-events:none;
+    max-width:80%;
+}
+
+@keyframes floatText{
+    0%, 100%{ transform:translate(-50%,-50%) translateY(0); }
+    50%{ transform:translate(-50%,-50%) translateY(-15px); }
+}
+
+.floating-icon{
+    position:absolute;
+    z-index:5;
+    font-size:1.5rem;
+    text-align:center;
+    color:white;
+    animation:iconFloat 5s ease-in-out infinite;
+    cursor:default;
+    transition:transform 0.3s;
+}
+
+.floating-icon span{
+    display:block;
+    font-size:0.85rem;
+    margin-top:4px;
+    font-family:'Patrick Hand', cursive;
+    color:white;
+    opacity:0.9;
+}
+
+.floating-icon:hover{
+    transform:scale(1.3);
+}
+
+@keyframes iconFloat{
+    0%, 100%{ transform:translateY(0); }
+    50%{ transform:translateY(-20px); }
 }
 
 /* ===== CONFETI / CORAZONES ===== */
@@ -306,4 +617,94 @@ a, button, .btn, .photo, #openLetterBtn, #blowCandlesBtn{
         transform:translateY(110vh) rotate(360deg);
         opacity:0.3;
     }
+}
+
+/* ===== SECCIÓN Y JUEGO DEL TATUAJE ===== */
+.tattoo-section {
+    padding: 60px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.tattoo-game {
+    position: relative;
+    z-index: 5;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 30px 25px;
+    border-radius: 20px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.tattoo-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.tattoo-question {
+    font-size: 1.15rem;
+    color: #ddd;
+    margin-bottom: 25px;
+}
+
+/* El contenedor mantiene los botones contenidos */
+.tattoo-buttons {
+    position: relative;
+    width: 100%;
+    height: 90px;
+    margin: 0 auto;
+}
+
+.tattoo-btn {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    user-select: none;
+    touch-action: manipulation;
+}
+
+/* Botón SÍ: Fijo a la izquierda */
+.tattoo-yes {
+    position: absolute;
+    top: 50%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    background-color: #4CAF50;
+    color: white;
+    z-index: 10;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.tattoo-yes:hover {
+    background-color: #45a049;
+    transform: translate(-50%, -50%) scale(1.08);
+}
+
+/* Botón NO: Arranca a la derecha y se moverá con JS */
+.tattoo-no {
+    position: absolute;
+    top: 50%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+    background-color: #f44336;
+    color: white;
+    z-index: 20;
+    transition: top 0.15s ease-out, left 0.15s ease-out;
+}
+
+.tattoo-result {
+    margin-top: 20px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #e6c387;
+    min-height: 30px;
 }

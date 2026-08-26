@@ -1052,24 +1052,23 @@ a, button, .btn, .photo, #openLetterBtn, #blowCandlesBtn{
 }
 
 /* ===== FOTO JUNTO AL TÍTULO DEL HERO ===== */
-.hero-top{
-    position:relative;
-    z-index:1;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:30px;
-    flex-wrap:wrap;
+.hero-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap; /* Para que en celulares se acomode uno debajo del otro y no se rompa */
 }
 
-.hero-photo{
-    width:140px;
-    height:140px;
-    object-fit:cover;
-    border-radius:50%;
-    border:3px solid #e2b4bd;
-    box-shadow:0 0 30px rgba(226,180,189,0.5);
-    animation:popIn 1s ease-out;
+.hero-photo {
+    width: 360px;
+    height: 360px;
+    object-fit: cover;
+    border-radius: 20px;
+    margin: 0; /* Elimina el centrado automático */
+    display: block;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
 @media (max-width:600px){
@@ -1364,4 +1363,42 @@ a, button, .btn, .photo, #openLetterBtn, #blowCandlesBtn{
         transform:translateY(110vh) rotate(360deg);
         opacity:0.3;
     }
+}
+
+/* 1. Empuja TODA la sección hacia abajo para despejar la barra de navegación */
+.hero, section.hero, #hero {
+    padding-top: 100px !important;
+    position: relative !important;
+}
+
+/* 2. Contenedor del título y la frase: los junta sin huecos gigantes */
+.hero-top {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    max-width: 600px !important;
+    margin: 0 auto !important;
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+.hero-top h1 {
+    margin-bottom: 10px !important; /* Junta el título con lo que esté debajo */
+    text-align: center !important;
+}
+
+/* 3. La foto: tirada a la extrema derecha (0) y bajada respecto al menú */
+.hero-photo {
+    position: fixed !important;     /* Se posiciona respecto a la ventana completa */
+    right: 40px !important;         /* Pega la foto bien a la derecha */
+    top: 50% !important;            /* La centra verticalmente */
+    transform: translateY(-50%) !important;
+    width: 250px !important;
+    height: 380px !important;
+    object-fit: cover !important;
+    border-radius: 20px !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4) !important;
+    z-index: 10 !important;
 }
