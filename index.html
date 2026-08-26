@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Cumpleaños Mamá</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles-additions.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Barra de progreso de scroll -->
+    <div id="scroll-progress"></div>
+
+    <!-- Contenedor donde caerá el confeti/pétalos -->
+    <div id="confetti-container"></div>
+
+    <!-- LOCK SCREEN -->
+    <div id="lock-screen">
+
+        <div class="glass-card lock-card">
+
+            <h1>Enter Your Secret Code</h1>
+
+            <input
+                type="password"
+                maxlength="4"
+                id="pin-input"
+                placeholder="0000">
+
+            <button onclick="checkPin()">Unlock</button>
+
+            <p id="error-message"></p>
+
+        </div>
+
+    </div>
+
+    <!-- AUDIO -->
+    <audio id="backgroundMusic" loop>
+        <source src="assets/audio/cancion.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="music-player glass-card">
+
+        <img src="assets/images/cover.jpeg">
+
+        <div>
+            <h4>Cómo Te Pago</h4>
+            <p>Lenier - Para Mamá</p>
+        </div>
+
+        <button id="playPauseBtn">▶</button>
+
+    </div>
+
+    <!-- NAVBAR -->
+
+    <nav>
+
+        <div class="logo">
+            Mamá's Birthday
+        </div>
+
+        <ul>
+
+            <li><a href="#surface">Surface</a></li>
+            <li><a href="#counter">Nuestra Historia</a></li>
+            <li><a href="#timeline">Línea del Tiempo</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#letter">The Letter</a></li>
+            <li><a href="#wishes">Wishes</a></li>
+
+        </ul>
+
+    </nav>
+
+    <!-- HERO -->
+
+    <section id="surface" class="hero reveal">
+
+        <div class="hero-top">
+
+            <h1>Happy Birthday, My Favorite Person</h1>
+
+            <img src="assets/images/hero-photo.jpeg" alt="Mamá" class="hero-photo">
+
+        </div>
+
+        <p>
+            Every year adds another chapter to a story
+            I never stop being grateful for.
+        </p>
+
+        <!-- Frases que van cambiando solas -->
+        <div id="hero-phrases" class="hero-phrases"></div>
+
+        <div class="hero-buttons">
+
+            <a href="#counter" class="btn">
+                Begin the Descent
+            </a>
+
+            <a href="#letter" class="btn">
+                Jump Straight to the Letter
+            </a>
+
+        </div>
+
+    </section>
+
+    <!-- CONTADOR -->
+
+    <section id="counter" class="reveal">
+
+        <h2>Nuestra Historia en Números</h2>
+
+        <div class="counter-grid">
+
+            <div class="counter-card glass-card">
+                <span class="counter-number" id="counter-years" data-target="0">0</span>
+                <span class="counter-label">Años siendo mi mamá</span>
+            </div>
+
+            <div class="counter-card glass-card">
+                <span class="counter-number" id="counter-days-birthday" data-target="0">0</span>
+                <span class="counter-label">Días para tu próximo cumpleaños</span>
+            </div>
+
+            <div class="counter-card glass-card">
+                <span class="counter-number" id="counter-love" data-target="9999">0</span>
+                <span class="counter-label">Razones para amarte (y contando)</span>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- LÍNEA DE TIEMPO -->
+
+    <section id="timeline" class="reveal">
+
+        <h2>Nuestra Línea del Tiempo</h2>
+
+        <div class="timeline-wrapper">
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content glass-card">
+                    <h3>Niñez</h3>
+                    <p>
+                        Mamá, eras muy joven cuando nací y aun así lo diste todo.
+                        Trabajabas y estudiabas al mismo tiempo, te pagabas todo
+                        tú sola, e incluso tuviste que dejar el colegio por un
+                        tiempo. Yo no entendía nada de eso entonces, solo
+                        recuerdo escucharte llorar en las noches sin saber por
+                        qué. Hoy sé que era por todo lo que cargabas sola. Aun
+                        así, siempre encontrabas la forma de aparecer con un
+                        pastel en mi escuela para celebrar con mis amigos. Viajamos
+                        juntos a Galápagos con miedo porque todo era nuevo para
+                        los dos, íbamos al Mr. Joy, comíamos helado junto a la
+                        laguna cerca de casa, y hasta hubo una vez que dejaste las
+                        llaves en la puerta del carro mientras yo paseaba mi carro
+                        a control remoto — y salimos corriendo asustados pensando
+                        que nos lo habían robado. No recuerdo muchas cosas de esos
+                        años, pero sé que fui muy feliz. Quizás no teníamos mucho,
+                        pero tú te encargaste de que nunca me faltara nada.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content glass-card">
+                    <h3>Adolescencia</h3>
+                    <p>
+                        Ya de más grande empecé a notar todo lo que hacías por mí.
+                        Siempre estabas ahí para cualquier cosa que se me ocurriera:
+                        si quería ir a boxear, me apoyabas; si necesitaba ropa, me
+                        la comprabas. Cumpliste roles que no te tocaban y nunca te
+                        quejaste. Viniste a todos mis partidos, sin faltar uno. Hasta
+                        hoy tengo guardado mi video favorito: el gol que metí ese día,
+                        y de fondo tu voz diciendo que me amas.
+                    </p>
+
+                    <video
+                        class="timeline-video"
+                        src="assets/video/gol-video.mp4"
+                        controls
+                        poster="assets/images/gol-video-cover.jpeg">
+                    </video>
+
+                    <p>
+                        En mayo de 2024 viví el momento más difícil de mi vida: tuviste
+                        un accidente muy grave y pasaste mucho tiempo hospitalizada. Hubo
+                        días muy duros donde no sabíamos qué iba a pasar. Yo me sentía muy
+                        solo, y me aferré a ese video del gol pidiéndole a Dios que te
+                        trajera de vuelta, porque sin ti este mundo no tendría sentido para
+                        mí. Y volviste. Desde ese día no le pido nada más a Dios, porque
+                        entendí que tú lo eres todo para mí. Lo único que le sigo pidiendo
+                        es que te siga llenando de cosas buenas, porque eres una de las
+                        mejores personas que conozco y nunca he entendido por qué a veces
+                        te tocan cosas tan difíciles.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content glass-card">
+                    <h3>Hoy</h3>
+                    <p>
+                        Te levantaste de todo eso, y hoy eres otra persona: más fuerte,
+                        más plena, y sigues dándolo todo por mi hermana y por mí — incluso
+                        en un nuevo puesto de trabajo más exigente, solo para darnos más.
+                        Y hoy te prometo y aspiro a que, con la ayuda de Dios, algún día
+                        voy a poder darte todo lo que tú te mereces, mamá. Todo lo que
+                        hiciste por mí no se olvida, y voy a pasar mi vida intentando
+                        devolverte aunque sea una parte de eso.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+
+    </section>
+
+    <!-- GALLERY -->
+
+    <section id="gallery" class="reveal">
+
+        <h2>Gallery</h2>
+
+        <div class="carousel-container">
+
+            <button class="carousel-btn" id="carouselPrev" aria-label="Anterior">‹</button>
+
+            <div class="carousel-track-wrapper">
+                <div class="carousel-track" id="carouselTrack">
+
+                    <div class="photo polaroid">
+                        <img src="assets/images/photo1.jpeg">
+                        <span>Memory One</span>
+                    </div>
+
+                    <div class="photo polaroid">
+                        <img src="assets/images/photo2.jpeg">
+                        <span>Memory Two</span>
+                    </div>
+
+                    <div class="photo polaroid">
+                        <img src="assets/images/photo3.jpeg">
+                        <span>Memory Three</span>
+                    </div>
+
+                    <div class="photo polaroid">
+                        <img src="assets/images/photo4.jpeg">
+                        <span>Memory Four</span>
+                    </div>
+
+                    <div class="photo polaroid">
+                        <img src="assets/images/photo5.jpeg">
+                        <span>Memory Five</span>
+                    </div>
+
+                    <div class="photo polaroid">
+                        <img src="assets/images/photo6.jpeg">
+                        <span>Memory Six</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <button class="carousel-btn" id="carouselNext" aria-label="Siguiente">›</button>
+
+        </div>
+
+        <div class="carousel-dots" id="carouselDots"></div>
+
+    </section>
+
+    <!-- LETTER -->
+
+    <section id="letter" class="reveal">
+
+        <h2>Open When Found</h2>
+
+        <div class="letter-box">
+
+            <button id="openLetterBtn">
+                Open the Letter
+            </button>
+
+            <div class="envelope" id="envelope">
+
+                <div class="envelope-back"></div>
+
+                <div class="envelope-letter">
+
+                    <div class="leaves-container" id="leavesContainer"></div>
+
+                    <div class="tree-decor">🌳</div>
+
+                    <p>
+                        Mamá,
+                    </p>
+
+                    <p>
+                        Hay personas que pasan por nuestra vida y personas que
+                        construyen la vida que tenemos. Tú hiciste lo segundo,
+                        todos los días, sin pedir nada a cambio.
+                    </p>
+
+                    <p>
+                        Gracias por cada sacrificio silencioso, por cada noche
+                        que te desvelaste sin que yo lo supiera, por cada
+                        lección que me diste incluso cuando yo no quería
+                        escucharla, y por cada abrazo que llegó justo cuando
+                        más lo necesitaba.
+                    </p>
+
+                    <p>
+                        Gracias por volver por mí. Hiciste feliz a un niño que
+                        no entendía nada de lo que cargaba en silencio, y
+                        hoy ese niño ya creció y entiende todo lo que a hecho
+                        por él, cada sacrificio, cada lágrima, cada batalla que
+                        peleaste sola. Nada de eso pasó desapercibido, mamá.
+                    </p>
+
+                    <img
+                        src="assets/images/letter-photo.jpeg"
+                        alt="Mamá e hijo"
+                        class="letter-photo">
+
+                    <p>
+                        Hoy quiero que sepas que nada de lo que soy sería
+                        posible sin usted. Es mi ejemplo, mi refugio y mi
+                        persona favorita en este mundo. Es, sin ninguna duda,
+                        el amor de mi vida.
+                    </p>
+
+                    <p>
+                        Espero de todo corazón que este nuevo año le traiga
+                        todo lo que te mereces, que cumpla cada una de sus
+                        metas, y que la vida por fin empiece a devolverte
+                        aunque sea una pequeña parte de todo lo que tú le
+                        has dado a los demás.
+                    </p>
+
+                    <p>
+                        Feliz cumpleaños, mami. La amo con todo lo que soy.
+                    </p>
+
+                    <p>
+                        Con todo mi amor,<br>
+                        Su hijo favorito.
+                    </p>
+
+                </div>
+
+                <div class="envelope-flap"></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- WISHES -->
+
+    <section id="wishes" class="reveal">
+
+        <h2>Wishes for the Year Ahead</h2>
+
+        <div class="wish-card">❤ Happiness</div>
+        <div class="wish-card">❤ Health</div>
+        <div class="wish-card">❤ Peace</div>
+        <div class="wish-card">❤ Beautiful Memories</div>
+
+    </section>
+
+    <!-- FINAL -->
+
+    <section class="final-section reveal">
+
+        <h2>Happy Birthday, truly.</h2>
+
+        <div class="candles">
+            🕯 🕯 🕯
+        </div>
+
+        <p>Make a wish.</p>
+
+        <button id="blowCandlesBtn">
+            Apagar las velitas
+        </button>
+
+        <button onclick="scrollToTop()">
+            Float Back to the Surface
+        </button>
+
+    </section>
+
+    <!-- GRAN FINAL: GALAXIA DE PARTÍCULAS CON THREE.JS -->
+
+    <section id="finale" class="reveal">
+
+        <div class="wish-card-cosmic" id="wishCard">
+            <h2>Mi deseo</h2>
+            <button id="heartChargeBtn" aria-label="Cargar amor">💗</button>
+            <p class="charging-text">CHARGING LOVE...</p>
+        </div>
+
+        <div class="galaxy-container" id="galaxyContainer">
+
+            <div class="galaxy-overlay-text" id="galaxyText">
+                Solo quiero que usted sea feliz
+            </div>
+
+            <div class="floating-icon" style="top:15%; left:8%;">
+                ✨<span>Amor</span>
+            </div>
+
+            <div class="floating-icon" style="top:72%; left:12%;">
+                💫<span>Siempre</span>
+            </div>
+
+            <div class="floating-icon" style="top:18%; right:8%;">
+                💖<span>Felicidad</span>
+            </div>
+
+            <div class="floating-icon" style="top:68%; right:10%;">
+                🌟<span>Eternamente</span>
+            </div>
+
+        </div>
+
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/script.js"></script>
+
+</body>
+</html>
